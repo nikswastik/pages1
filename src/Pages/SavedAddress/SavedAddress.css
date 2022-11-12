@@ -69,3 +69,20 @@
     margin:0.2em;
     color: blue;
 }
+
+.default-cntr{
+    display: flex;
+    justify-content: space-between;
+}
+
+.accept-image{
+    width: 1em;
+    height: 1em;
+    margin-right:0.5em ;
+}
+
+.default{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

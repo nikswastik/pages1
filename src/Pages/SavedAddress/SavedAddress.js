@@ -37,11 +37,35 @@ export default function SavedAddress() {
     let temp = [...updated];
     temp.push(data);
     setUserAddress(temp);
+    setIsOpen(!isOpen);
+    localStorage.setItem("userAddress", JSON.stringify(temp));
   };
 
   const openHandler = () => {
     setIsOpen(!isOpen);
   };
+  
+  const defaultHandler=(id)=>{
+    let data=[...userAddress]
+    data.map((item, index) => {
+        if (item.id ==id){
+            // alert(JSON.stringify(item.isDefault))
+            item.isDefault=true
+        }
+        else{
+            item.isDefault=false
+        }
+      });
+   console.log(data)
+   setUserAddress([...data])
+   localStorage.setItem("userAddress", JSON.stringify(data));
+    //  let data=updated[0]
+    // //  alert(JSON.stringify(updated))
+    // //  alert(JSON.stringify(data.isDefault))
+    // console.log(data.isDefault)
+    // data.isDefault=true
+
+  }
 
   return (
     <div className="saved-addr-contr">
@@ -65,9 +89,12 @@ export default function SavedAddress() {
         {userAddress?.map((item, index) => {
           return (
             <div className="address-card">
-              {1 == 1 && (
+              { (
                 <div className="mainDiv">
-                  <h3>{item.name}</h3>
+                 <div className="default-cntr">
+                 <h3>{item.name}</h3>
+                 <div className="default">{item?.isDefault &&  <div><img className="accept-image" src={require("../../Assets/Images/accept.png")}/>Default Address</div>}</div>
+                 </div>
                   <p>
                     {item?.flat}, {item?.landMark}
                   </p>
@@ -75,7 +102,7 @@ export default function SavedAddress() {
                     {item?.city}, {item?.zipCode}
                   </p>
                   <p>{item?.state}</p>
-                  <p>+{item.phone}</p>
+                  <p>{item?.countryCode} {item.phone}</p>
                   <div className="card-actions">
                     <p
                       className="buttonText"
@@ -94,6 +121,14 @@ export default function SavedAddress() {
                     >
                       REMOVE
                     </p>
+                    {!item.isDefault &&  <p
+                      className="buttonText"
+                      onClick={() => {
+                        defaultHandler(item?.id);
+                      }}
+                    >
+                      SET AS DEFAULT
+                    </p>}
                   </div>
                 </div>
               )}

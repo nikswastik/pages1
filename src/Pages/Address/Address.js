@@ -4,9 +4,9 @@ import Codes from "../../Utils/state.json";
 import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 
-export default function Address({ formScreen,editData,updateHandler }) {
+export default function Address({ formScreen, editData, updateHandler }) {
   const navigate = useNavigate();
-  const [id,setId]=useState()
+  const [id, setId] = useState();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [zipCode, setZipCose] = useState("");
@@ -17,20 +17,24 @@ export default function Address({ formScreen,editData,updateHandler }) {
   const [state, setState] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   const [errorField, setErrorField] = useState("");
+  const [countryCode, setCountryCode] = useState();
   const [test, setTest] = useState([]);
+  const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
     // alert(JSON.stringify(editData))
-    if(editData){
-        setId(editData?.id)
-        setName(editData?.name)
-        setPhone(editData?.phone);
-        setZipCose(editData?.zipCode);
-        setFlat(editData?.flat);
-        setArea(editData?.area);
-        setLandMark(editData?.landMark);
-        setCity(editData?.city);
-        setState(editData?.state);
+    if (editData) {
+      setId(editData?.id);
+      setName(editData?.name);
+      setPhone(editData?.phone);
+      setZipCose(editData?.zipCode);
+      setFlat(editData?.flat);
+      setArea(editData?.area);
+      setLandMark(editData?.landMark);
+      setCity(editData?.city);
+      setState(editData?.state);
+      setCountryCode(editData?.countryCode);
+      setIsDefault(editData?.isDefault);
     }
     let data = localStorage.getItem("userAddress");
     if (data) {
@@ -81,6 +85,7 @@ export default function Address({ formScreen,editData,updateHandler }) {
   };
 
   const stateHandler = (event) => {
+    // alert(event.target.value)
     setState(event.target.value);
     setErrorMsg(" ");
     setErrorField(" ");
@@ -123,8 +128,6 @@ export default function Address({ formScreen,editData,updateHandler }) {
     } else {
       setErrorMsg(" ");
       setErrorField(" ");
-      //   alert(JSON.stringify(test))xs
-      // alert(JSON.stringify(test))
       let data = [...test];
       let address = {
         id: Date.now(),
@@ -137,30 +140,45 @@ export default function Address({ formScreen,editData,updateHandler }) {
         city: city,
         state: state,
       };
-      //   // console.log(name,phone,zipCode,flat,area,landMark,city,state)
       data.push(address);
-      //   alert(JSON.stringify(data));
       setTest(data);
       localStorage.setItem("userAddress", JSON.stringify(data));
-      //   alert(JSON.stringify(data))
       navigate("/saved");
     }
   };
 
-  const update=()=>{
+  const update = () => {
     let address = {
-        id: id,
-        name: name,
-        phone: phone,
-        zipCode: zipCode,
-        flat: flat,
-        area: area,
-        landMark: landMark,
-        city: city,
-        state: state,
-      };
-    updateHandler(address)
-}
+      id: id,
+      name: name,
+      phone: phone,
+      zipCode: zipCode,
+      countryCode: countryCode,
+      flat: flat,
+      area: area,
+      landMark: landMark,
+      city: city,
+      state: state,
+      isDefault: isDefault,
+    };
+    updateHandler(address);
+  };
+
+  const countryCodeHandler = (event) => {
+    setCountryCode(event.target.value);
+    setErrorMsg(" ");
+    setErrorField(" ");
+  };
+
+  const isDefaultHandler = (event) => {
+    if (event && !isDefault) {
+      setIsDefault(true);
+    } else {
+      setIsDefault(false);
+    }
+
+  
+  };
 
   return (
     <div className="address-contr" style={{ padding: formScreen ? 0 : "1em" }}>
@@ -193,10 +211,15 @@ export default function Address({ formScreen,editData,updateHandler }) {
           Phone Number
         </p>
         <div className={formScreen ? "number-form-feilds" : "number-fields"}>
-          <select name="code" className="selectCountry ">
+          <select
+            name="code"
+            className="selectCountry "
+            onChange={countryCodeHandler}
+            value={countryCode}
+          >
             {Country.map((code, index) => {
               return (
-                <option key={index} value={`${code.flag}`}>
+                <option key={index} value={`${code.dial_code}`}>
                   {`${code.dial_code} ${code.flag}`}
                 </option>
               );
@@ -324,16 +347,21 @@ export default function Address({ formScreen,editData,updateHandler }) {
         <div
           className={formScreen ? "form-termsconditions" : "termsconditions"}
         >
-          <input className="check" type="checkbox" />
+          <input
+            className="check"
+            type="checkbox"
+            onChange={isDefaultHandler}
+            checked={isDefault}
+          />
           <p className="checkLine  ">Make this my default address</p>
         </div>
 
         <br />
         <button
           className={formScreen ? "form-addBtn " : "addButton "}
-          onClick={formScreen? update :submitHandler}
+          onClick={formScreen ? update : submitHandler}
         >
-          {formScreen?"SAVE ADDRESS AND CONTINUE":"ADD ADDRESS"}
+          {formScreen ? "SAVE ADDRESS AND CONTINUE" : "ADD ADDRESS"}
         </button>
       </div>
     </div>
