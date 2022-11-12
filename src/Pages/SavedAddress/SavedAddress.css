@@ -1,0 +1,71 @@
+.saved-addr-contr{
+    /* background-color: red; */
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center;
+    width: 100vw;
+}
+.addr-heading{
+    /* background-color: green; */
+    width: 70%;
+}
+.saved-addres{
+    padding: 1em;
+    display: flex;
+    width: 70%;
+    justify-content: space-between;
+}
+
+.address-card-contr{
+    width: 70%;
+}
+.address-card{
+    background-color: #f0f8fe    ;
+    margin-top: 1em;
+    width: 100%;
+    border: 1px solid #e2e2e2;
+    padding: 1em;
+}
+
+.path-text{
+   color: grey; 
+}
+
+.address-text{
+    
+    color: black;
+    /* margin-left: 0.4em; */
+}
+
+.add-addr-btn{
+    background-color:#efbd1c;
+    height: 2.5em;
+    border: 0;
+    padding: 0.8em;
+    /* width: 20%; */
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.btn-image{
+    width: 1em;
+    height: 1em;
+}
+
+.card-actions{
+    display: flex;
+}
+
+.buttonText {
+    margin: 0.2em;
+    color: blue;
+}
+.line{
+    margin:0.2em;
+    color: blue;
+}
