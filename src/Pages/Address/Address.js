@@ -4,12 +4,7 @@ import Codes from "../../Utils/state.json";
 import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 
-export default function Address({
-  formScreen,
-  editData,
-  updateHandler,
-  isNewAddress,
-}) {
+export default function Address({}) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -28,20 +23,7 @@ export default function Address({
 
   useEffect(() => {
     // alert(JSON.stringify(editData))
-    if (editData && !isNewAddress) {
-      setId(editData?.id);
-      setName(editData?.name);
-      setPhone(editData?.phone);
-      setZipCose(editData?.zipCode);
-      setFlat(editData?.flat);
-      setArea(editData?.area);
-      setLandMark(editData?.landMark);
-      setCity(editData?.city);
-      setState(editData?.state);
-      setCountryCode(editData?.countryCode);
-      setIsDefault(editData?.isDefault);
-    }
-    
+
     let data = localStorage.getItem("userAddress");
     if (data) {
       setTest(JSON.parse(data));
@@ -98,8 +80,7 @@ export default function Address({
   };
 
   const submitHandler = () => {
-    var mobileRE =
-      /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+    var mobileRE =/^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
 
     if (!name) {
       setErrorMsg("Please Enter Name");
@@ -167,7 +148,6 @@ export default function Address({
       state: state,
       isDefault: isDefault,
     };
-    updateHandler(address,isNewAddress);
   };
 
   const countryCodeHandler = (event) => {
@@ -185,36 +165,28 @@ export default function Address({
   };
 
   return (
-    <div className="address-contr" style={{ padding: formScreen ? 0 : "1em" }}>
+    <div className="address-contr">
       <div
         className="address-form"
         style={{
-          width: formScreen ? "100%" : "50%",
-          border: formScreen ? 0 : "1px solid lightgray",
+          width: "50%",
+          border: "1px solid lightgray",
         }}
       >
-        <h3 className="mainText">{formScreen ? "Edit" : "Your"} Address</h3>
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Full Name {id}
-        </p>
+        <h3 className="mainText">{"Your"} Address</h3>
+        <p className={"label-text"}>Full Name {id}</p>
         <input
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           type="text"
           placeholder="Eg: Shyam Devadig"
           value={name}
           onChange={nameHandler}
-          style={{ border: errorField == "name" && "1px solid red" }}
+          style={{ border: errorField === "name" && "1px solid red" }}
         />
-        {errorField == "name" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "name" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Phone Number
-        </p>
-        <div className={formScreen ? "number-form-feilds" : "number-fields"}>
+        <p className={"label-text"}>Phone Number</p>
+        <div className={"number-fields"}>
           <select
             name="code"
             className="selectCountry "
@@ -233,105 +205,71 @@ export default function Address({
             type="text"
             placeholder="Phone Number"
             value={phone}
-            className={formScreen ? "formfield" : " phone field"}
+            className={" phone field"}
             // className="phone field "
             onChange={phoneHandler}
-            style={{ border: errorField == "phone" && "1px solid red" }}
+            style={{ border: errorField === "phone" && "1px solid red" }}
           />
         </div>
-        {errorField == "phone" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "phone" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Zip Code
-        </p>
+        <p className={"label-text"}>Zip Code</p>
         <input
           type="text"
           placeholder="Eg: 6 digits(0-9)zip code"
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           value={zipCode}
           onChange={zipHandler}
-          style={{ border: errorField == "zipCode" && "1px solid red" }}
+          style={{ border: errorField === "zipCode" && "1px solid red" }}
         />
-        {errorField == "zipCode" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "zipCode" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Flat,House no,Company,Apartment
-        </p>
+        <p className={"label-text"}>Flat,House no,Company,Apartment</p>
         <input
           type="text"
           placeholder="Flat,House no,Company,Apartment"
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           value={flat}
           onChange={flatHandler}
-          style={{ border: errorField == "flat" && "1px solid red" }}
+          style={{ border: errorField === "flat" && "1px solid red" }}
         />
-        {errorField == "flat" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "flat" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Area,Street,Sector,Village
-        </p>
+        <p className={"label-text"}>Area,Street,Sector,Village</p>
         <input
           type="text"
           placeholder="Area,Street,Sector,Village"
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           value={area}
           onChange={AreaHandler}
-          style={{ border: errorField == "area" && "1px solid red" }}
+          style={{ border: errorField === "area" && "1px solid red" }}
         />
-        {errorField == "area" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "area" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Landmark
-        </p>
+        <p className={"label-text"}>Landmark</p>
         <input
           type="text"
           placeholder="Eg: Nagayakashe Hall"
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           value={landMark}
           onChange={landHandler}
-          style={{ border: errorField == "landMark" && "1px solid red" }}
+          style={{ border: errorField === "landMark" && "1px solid red" }}
         />
-        {errorField == "landMark" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "landMark" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>
-          Town/City
-        </p>
+        <p className={"label-text"}>Town/City</p>
         <input
           type="text"
           placeholder="Enter your Town/City name"
-          className={formScreen ? "formfield" : "field"}
+          className={"field"}
           value={city}
           onChange={cityHandler}
-          style={{ border: errorField == "city" && "1px solid red" }}
+          style={{ border: errorField === "city" && "1px solid red" }}
         />
-        {errorField == "city" && (
-          <p className={formScreen ? "form-error-msg" : "error-msg"}>
-            {errorMsg}
-          </p>
-        )}
+        {errorField === "city" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={formScreen ? "form-label-text" : "label-text"}>State</p>
-        <div className={formScreen ? "form-states" : "states"}>
+        <p className={"label-text"}>State</p>
+        <div className={"states"}>
           <select
             name="state"
             value={state}
@@ -348,9 +286,7 @@ export default function Address({
           </select>
         </div>
 
-        <div
-          className={formScreen ? "form-termsconditions" : "termsconditions"}
-        >
+        <div className={"termsconditions"}>
           <input
             className="check"
             type="checkbox"
@@ -361,11 +297,8 @@ export default function Address({
         </div>
 
         <br />
-        <button
-          className={formScreen ? "form-addBtn " : "addButton "}
-          onClick={formScreen ? update : submitHandler}
-        >
-          {(formScreen && !isNewAddress) ? "SAVE ADDRESS AND CONTINUE" : "ADD ADDRESS"}
+        <button className={"addButton "} onClick={submitHandler}>
+          {"ADD ADDRESS"}
         </button>
       </div>
     </div>
