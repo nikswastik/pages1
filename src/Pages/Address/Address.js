@@ -4,7 +4,12 @@ import Codes from "../../Utils/state.json";
 import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 
-export default function Address({ formScreen, editData, updateHandler }) {
+export default function Address({
+  formScreen,
+  editData,
+  updateHandler,
+  isNewAddress,
+}) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -14,16 +19,16 @@ export default function Address({ formScreen, editData, updateHandler }) {
   const [area, setArea] = useState("");
   const [landMark, setLandMark] = useState("");
   const [city, setCity] = useState("");
-  const [state, setState] = useState("");
+  const [state, setState] = useState("Karnataka");
   const [errorMsg, setErrorMsg] = useState("");
   const [errorField, setErrorField] = useState("");
-  const [countryCode, setCountryCode] = useState();
+  const [countryCode, setCountryCode] = useState("+91");
   const [test, setTest] = useState([]);
   const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
     // alert(JSON.stringify(editData))
-    if (editData) {
+    if (editData && !isNewAddress) {
       setId(editData?.id);
       setName(editData?.name);
       setPhone(editData?.phone);
@@ -36,6 +41,7 @@ export default function Address({ formScreen, editData, updateHandler }) {
       setCountryCode(editData?.countryCode);
       setIsDefault(editData?.isDefault);
     }
+    
     let data = localStorage.getItem("userAddress");
     if (data) {
       setTest(JSON.parse(data));
@@ -161,7 +167,7 @@ export default function Address({ formScreen, editData, updateHandler }) {
       state: state,
       isDefault: isDefault,
     };
-    updateHandler(address);
+    updateHandler(address,isNewAddress);
   };
 
   const countryCodeHandler = (event) => {
@@ -176,8 +182,6 @@ export default function Address({ formScreen, editData, updateHandler }) {
     } else {
       setIsDefault(false);
     }
-
-  
   };
 
   return (
@@ -361,7 +365,7 @@ export default function Address({ formScreen, editData, updateHandler }) {
           className={formScreen ? "form-addBtn " : "addButton "}
           onClick={formScreen ? update : submitHandler}
         >
-          {formScreen ? "SAVE ADDRESS AND CONTINUE" : "ADD ADDRESS"}
+          {(formScreen && !isNewAddress) ? "SAVE ADDRESS AND CONTINUE" : "ADD ADDRESS"}
         </button>
       </div>
     </div>

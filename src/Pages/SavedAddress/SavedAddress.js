@@ -5,10 +5,9 @@ export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [editData, setEditData] = useState({});
-
+  const [isNewAddress, setIsNewAddress] = useState(false);
   useEffect(() => {
     let data = localStorage.getItem("userAddress");
-    // alert(JSON.stringify(data))
     setUserAddress(JSON.parse(data));
   }, []);
 
@@ -22,6 +21,7 @@ export default function SavedAddress() {
   };
 
   const editHandler = (id) => {
+    setIsNewAddress(false);
     setIsOpen(!isOpen);
     let updated = userAddress.filter((item, index) => {
       return item.id == id;
@@ -30,42 +30,70 @@ export default function SavedAddress() {
     setEditData(updated[0]);
   };
 
-  const updateHandler = (data) => {
-    let updated = userAddress.filter((item, index) => {
-      return item.id !== data?.id;
-    });
-    let temp = [...updated];
-    temp.push(data);
-    setUserAddress(temp);
-    setIsOpen(!isOpen);
-    localStorage.setItem("userAddress", JSON.stringify(temp));
+  const updateHandler = (data, isNew) => {
+    if (isNew) {
+     
+      let newData = [];
+      newData.push(data);
+      if (userAddress) {
+        data.id = Date.now() + "hey";
+        let adress = userAddress.concat(newData);
+        setUserAddress([...adress]);
+        localStorage.setItem("userAddress", JSON.stringify(adress));
+      } else {
+        setUserAddress([...newData]);
+        localStorage.setItem("userAddress", JSON.stringify(newData));
+      }
+
+      if(data.isDefault){
+        let data = [...userAddress];
+        data.map((item, index) => {
+          if (item.id == data.id) {
+            item.isDefault = true;
+          } else {
+            item.isDefault = false;
+          }
+        });
+      }
+     
+    console.log(data);
+    } else {
+      let updated = userAddress.filter((item, index) => {
+        return item.id !== data?.id;
+      });
+      if (data.isDefault) {
+        defaultHandler(data.id);
+      }
+      let temp = [...updated];
+      temp.push(data);
+      setUserAddress(temp);
+      setIsOpen(!isOpen);
+      localStorage.setItem("userAddress", JSON.stringify(temp));
+    }
+    openHandler();
   };
 
   const openHandler = () => {
     setIsOpen(!isOpen);
   };
-  
-  const defaultHandler=(id)=>{
-    let data=[...userAddress]
-    data.map((item, index) => {
-        if (item.id ==id){
-            // alert(JSON.stringify(item.isDefault))
-            item.isDefault=true
-        }
-        else{
-            item.isDefault=false
-        }
-      });
-   console.log(data)
-   setUserAddress([...data])
-   localStorage.setItem("userAddress", JSON.stringify(data));
-    //  let data=updated[0]
-    // //  alert(JSON.stringify(updated))
-    // //  alert(JSON.stringify(data.isDefault))
-    // console.log(data.isDefault)
-    // data.isDefault=true
 
-  }
+  const defaultHandler = (id) => {
+    let data = [...userAddress];
+    data.map((item, index) => {
+      if (item.id == id) {
+        item.isDefault = true;
+      } else {
+        item.isDefault = false;
+      }
+    });
+    console.log(data);
+    setUserAddress([...data]);
+    localStorage.setItem("userAddress", JSON.stringify(data));
+  };
+  const newAddrHandler = () => {
+    setIsOpen(!isOpen);
+    setIsNewAddress(true);
+  };
 
   return (
     <div className="saved-addr-contr">
@@ -76,7 +104,7 @@ export default function SavedAddress() {
       </div>
       <div className="saved-addres">
         <h3>Your Address</h3>
-        <button className="add-addr-btn">
+        <button className="add-addr-btn" onClick={newAddrHandler}>
           <img
             className="btn-image"
             src={require("../../Assets/Images/add-location.png")}
@@ -88,13 +116,23 @@ export default function SavedAddress() {
       <div className="address-card-contr">
         {userAddress?.map((item, index) => {
           return (
-            <div className="address-card">
-              { (
+            <div className="address-card" key={index}>
+              {
                 <div className="mainDiv">
-                 <div className="default-cntr">
-                 <h3>{item.name}</h3>
-                 <div className="default">{item?.isDefault &&  <div><img className="accept-image" src={require("../../Assets/Images/accept.png")}/>Default Address</div>}</div>
-                 </div>
+                  <div className="default-cntr">
+                    <h3>{item.name}</h3>
+                    <div className="default">
+                      {item?.isDefault && (
+                        <div>
+                          <img
+                            className="accept-image"
+                            src={require("../../Assets/Images/accept.png")}
+                          />
+                          Default Address
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   <p>
                     {item?.flat}, {item?.landMark}
                   </p>
@@ -102,7 +140,9 @@ export default function SavedAddress() {
                     {item?.city}, {item?.zipCode}
                   </p>
                   <p>{item?.state}</p>
-                  <p>{item?.countryCode} {item.phone}</p>
+                  <p>
+                    {item?.countryCode} {item.phone}
+                  </p>
                   <div className="card-actions">
                     <p
                       className="buttonText"
@@ -121,17 +161,20 @@ export default function SavedAddress() {
                     >
                       REMOVE
                     </p>
-                    {!item.isDefault &&  <p
-                      className="buttonText"
-                      onClick={() => {
-                        defaultHandler(item?.id);
-                      }}
-                    >
-                      SET AS DEFAULT
-                    </p>}
+                    <p className="line">|</p>
+                    {!item.isDefault && (
+                      <p
+                        className="buttonText"
+                        onClick={() => {
+                          defaultHandler(item?.id);
+                        }}
+                      >
+                        SET AS DEFAULT
+                      </p>
+                    )}
                   </div>
                 </div>
-              )}
+              }
             </div>
           );
         })}
@@ -141,6 +184,7 @@ export default function SavedAddress() {
         openHandler={openHandler}
         editData={editData}
         updateHandler={updateHandler}
+        isNewAddress={isNewAddress}
       />
     </div>
   );
