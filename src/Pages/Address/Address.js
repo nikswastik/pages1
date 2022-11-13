@@ -22,7 +22,10 @@ export default function Address({}) {
   const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
-   
+   let data = localStorage.getItem("userAddress");
+   if(data){
+    setTest(JSON.parse(data));
+   }
   }, []);
 
   const nameHandler = (event) => {
@@ -110,7 +113,21 @@ export default function Address({}) {
     } else {
       setErrorMsg(" ");
       setErrorField(" ");
-     
+    let data = [...test];
+      let address ={
+        id : Date.now(),
+        name:name,
+        phone:phone,
+        flat:flat,
+        area:area,
+        landMark:landMark,
+        city:city,
+        state:state
+      }
+data.push(address);
+setTest(data);
+    localStorage.setItem("userAddress",JSON.stringify(data)) ;
+    navigate('/saved');
     }
   };
 
