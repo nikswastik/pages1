@@ -5,16 +5,11 @@ export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
 
   useEffect(() => {
-    let data = localStorage.getItem("userAddress");
-    setUserAddress(JSON.parse(data));
+  
   }, []);
 
   const remove = (id) => {
-    let updated = userAddress.filter((item, index) => {
-      return item.id !== id;
-    });
-    setUserAddress(updated);
-    localStorage.setItem("userAddress", JSON.stringify(updated));
+   
   };
 
   return (

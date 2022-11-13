@@ -22,12 +22,7 @@ export default function Address({}) {
   const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
-    // alert(JSON.stringify(editData))
-
-    let data = localStorage.getItem("userAddress");
-    if (data) {
-      setTest(JSON.parse(data));
-    }
+   
   }, []);
 
   const nameHandler = (event) => {
@@ -115,40 +110,11 @@ export default function Address({}) {
     } else {
       setErrorMsg(" ");
       setErrorField(" ");
-      let data = [...test];
-      let address = {
-        id: Date.now(),
-        name: name,
-        phone: phone,
-        zipCode: zipCode,
-        flat: flat,
-        area: area,
-        landMark: landMark,
-        city: city,
-        state: state,
-      };
-      data.push(address);
-      setTest(data);
-      localStorage.setItem("userAddress", JSON.stringify(data));
-      navigate("/saved");
+     
     }
   };
 
-  const update = () => {
-    let address = {
-      id: id,
-      name: name,
-      phone: phone,
-      zipCode: zipCode,
-      countryCode: countryCode,
-      flat: flat,
-      area: area,
-      landMark: landMark,
-      city: city,
-      state: state,
-      isDefault: isDefault,
-    };
-  };
+ 
 
   const countryCodeHandler = (event) => {
     setCountryCode(event.target.value);
