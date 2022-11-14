@@ -17,7 +17,7 @@ export default function Address({}) {
   const [state, setState] = useState("Karnataka");
   const [errorMsg, setErrorMsg] = useState("");
   const [errorField, setErrorField] = useState("");
-  const [countryCode, setCountryCode] = useState("+91");
+  // const [countryCode, setCountryCode] = useState("+91");
   const [test, setTest] = useState([]);
   const [isDefault, setIsDefault] = useState(false);
 
@@ -78,37 +78,38 @@ export default function Address({}) {
   };
 
   const submitHandler = () => {
-    var mobileRE =/^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+    let mobileRE = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
+
 
     if (!name) {
-      setErrorMsg("Please Enter Name");
+      setErrorMsg("Please input your Name!");
       setErrorField("name");
     } else if (name.length < 2) {
       setErrorMsg("Name should be greter than 2");
       setErrorField("name");
     } else if (!phone) {
-      setErrorMsg("Please Enter your phone number");
+      setErrorMsg("Please Enter your phone number!");
       setErrorField("phone");
     } else if (!phone.match(mobileRE)) {
       setErrorMsg("Please Enter valid phone number");
       setErrorField("phone");
     } else if (!zipCode) {
-      setErrorMsg("Please Enter your zipCode");
+      setErrorMsg("Please Enter your pincode!");
       setErrorField("zipCode");
     } else if (!/^[0-9]{6}$/.test(zipCode)) {
-      setErrorMsg("Please Enter valid zipCode");
+      setErrorMsg("Please Enter valid Pincode!");
       setErrorField("zipCode");
     } else if (flat.length < 2) {
-      setErrorMsg("Please Enter flat,House no, Company, Apartment");
+      setErrorMsg("Please input your Address!");
       setErrorField("flat");
     } else if (area.length < 2) {
-      setErrorMsg("Please Enter Area,Street,Sector,Village");
+      setErrorMsg("Please input your Street Address");
       setErrorField("area");
     } else if (landMark.length < 2) {
-      setErrorMsg("Please Enter Landmark");
+      setErrorMsg("Please Enter Landmark!");
       setErrorField("landMark");
     } else if (city.length < 2) {
-      setErrorMsg("Please Enter Landmark");
+      setErrorMsg("Please Enter City / Town!");
       setErrorField("city");
     } else {
       setErrorMsg(" ");
@@ -120,9 +121,11 @@ export default function Address({}) {
         phone:phone,
         flat:flat,
         area:area,
+        zipCode:zipCode,
         landMark:landMark,
         city:city,
-        state:state
+        state:state,
+        isDefault:isDefault,
       }
 data.push(address);
 setTest(data);
@@ -133,11 +136,11 @@ setTest(data);
 
  
 
-  const countryCodeHandler = (event) => {
-    setCountryCode(event.target.value);
-    setErrorMsg(" ");
-    setErrorField(" ");
-  };
+  // const countryCodeHandler = (event) => {
+  //   setCountryCode(event.target.value);
+  //   setErrorMsg(" ");
+  //   setErrorField(" ");
+  // };
 
   const isDefaultHandler = (event) => {
     if (event && !isDefault) {
@@ -152,16 +155,24 @@ setTest(data);
       <div
         className="address-form"
         style={{
-          width: "50%",
+          width: "55%",
           border: "1px solid lightgray",
         }}
       >
+  
         <h3 className="mainText">{"Your"} Address</h3>
+        <hr
+        style={{
+          background: 'lime',
+          color: 'lime',
+          borderColor: 'lime',
+          height: '3px',
+        }}/>
         <p className={"label-text"}>Full Name {id}</p>
         <input
           className={"field"}
           type="text"
-          placeholder="Eg: Shyam Devadig"
+          placeholder="    Eg: Shyam Devadig"
           value={name}
           onChange={nameHandler}
           style={{ border: errorField === "name" && "1px solid red" }}
@@ -169,37 +180,22 @@ setTest(data);
         {errorField === "name" && <p className={"error-msg"}>{errorMsg}</p>}
 
         <p className={"label-text"}>Phone Number</p>
-        <div className={"number-fields"}>
-          <select
-            name="code"
-            className="selectCountry "
-            onChange={countryCodeHandler}
-            value={countryCode}
-          >
-            {Country.map((code, index) => {
-              return (
-                <option key={index} value={`${code.dial_code}`}>
-                  {`${code.dial_code} ${code.flag}`}
-                </option>
-              );
-            })}
-          </select>
-          <input
+       <input
             type="text"
-            placeholder="Phone Number"
+            placeholder="    Phone Number"
             value={phone}
-            className={" phone field"}
+            className={"field"}
             // className="phone field "
             onChange={phoneHandler}
             style={{ border: errorField === "phone" && "1px solid red" }}
           />
-        </div>
+       
         {errorField === "phone" && <p className={"error-msg"}>{errorMsg}</p>}
 
         <p className={"label-text"}>Zip Code</p>
         <input
           type="text"
-          placeholder="Eg: 6 digits(0-9)zip code"
+          placeholder="    Eg: 6 digits(0-9)zip code"
           className={"field"}
           value={zipCode}
           onChange={zipHandler}
@@ -207,10 +203,10 @@ setTest(data);
         />
         {errorField === "zipCode" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Flat,House no,Company,Apartment</p>
+        <p className={"label-text"}>Flat,House no.,Company,Apartment</p>
         <input
           type="text"
-          placeholder="Flat,House no,Company,Apartment"
+          placeholder="    Flat,House no,Company,Apartment"
           className={"field"}
           value={flat}
           onChange={flatHandler}
@@ -221,7 +217,7 @@ setTest(data);
         <p className={"label-text"}>Area,Street,Sector,Village</p>
         <input
           type="text"
-          placeholder="Area,Street,Sector,Village"
+          placeholder="    Area,Street,Sector,Village"
           className={"field"}
           value={area}
           onChange={AreaHandler}
@@ -232,7 +228,7 @@ setTest(data);
         <p className={"label-text"}>Landmark</p>
         <input
           type="text"
-          placeholder="Eg: Nagayakashe Hall"
+          placeholder="    Eg: Nagayakashe Hall"
           className={"field"}
           value={landMark}
           onChange={landHandler}
@@ -243,7 +239,7 @@ setTest(data);
         <p className={"label-text"}>Town/City</p>
         <input
           type="text"
-          placeholder="Enter your Town/City name"
+          placeholder="    Enter your Town/City name"
           className={"field"}
           value={city}
           onChange={cityHandler}

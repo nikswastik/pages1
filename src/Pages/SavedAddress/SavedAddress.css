@@ -5,27 +5,35 @@
     justify-content: center !important;
     align-items: center;
     width: 100vw;
+    margin-top: 4em;
 }
 .addr-heading{
-    /* background-color: green; */
-    width: 70%;
+    width: 60%;
 }
 .saved-addres{
     padding: 1em;
     display: flex;
-    width: 70%;
+    width: 60%;
     justify-content: space-between;
 }
 
 .address-card-contr{
-    width: 70%;
+    width: 60%;
+    margin-top: -1.5em;
+    border-radius: 3px !important;
 }
 .address-card{
     background-color: #f0f8fe    ;
     margin-top: 1em;
-    width: 100%;
+    width: 96%;
     border: 1px solid #e2e2e2;
     padding: 1em;
+    
+}
+
+.hr-line{
+    color: lightgray;
+    width: 1px;
 }
 
 .path-text{
@@ -39,22 +47,24 @@
 }
 
 .add-addr-btn{
-    background-color:#efbd1c;
-    height: 2.5em;
+    background-color:#EFBD1C;
+    height: 2.8em;
     border: 0;
-    padding: 0.8em;
-    /* width: 20%; */
+    width: 18%;
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
-
-
+    cursor: pointer;
+font-size: 14px;
+font-weight: 700;
+padding: 1px 6px;
+margin: 30px 0px 0px 0px;
 }
 
 .btn-image{
-    width: 1em;
-    height: 1em;
+    width: 1.2em;
+    height: 1.2em;
+    font-weight: 900;
 }
 
 .card-actions{
@@ -64,6 +74,7 @@
 .buttonText {
     margin: 0.2em;
     color: blue;
+    cursor: pointer;
 }
 .line{
     margin:0.2em;

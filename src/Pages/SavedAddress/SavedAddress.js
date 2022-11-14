@@ -15,8 +15,24 @@ export default function SavedAddress() {
   let updated = userAddress.filter((item , index)=>{
     return item.id != id;
    })
+   localStorage.setItem("userAddress" ,JSON.stringify(updated))
    setUserAddress(updated);
   };
+
+  const defaultHandler =(id)=>{
+    let data = userAddress;
+ data.map((item , index)=>{
+  if(id==item.id){
+    item.isDefault=true;
+   }
+   else{
+    item.isDefault = false;
+   }
+})
+localStorage.setItem("userAddress" , JSON.stringify(data));
+setUserAddress([...data]);
+  }
+  
 
   return (
     <div className="saved-addr-contr">
@@ -26,17 +42,17 @@ export default function SavedAddress() {
         </p>
       </div>
       <div className="saved-addres">
-        <h3>Your Address</h3>
+        <h2>Your Address</h2>
         <button className="add-addr-btn">
           <img
           alt="btn"
             className="btn-image"
             src={require("../../Assets/Images/add-location.png")}
           />
-          Add Address
+          ADD ADDRESS
         </button>
       </div>
-      <hr />
+      <hr className="hr-line" />
       <div className="address-card-contr">
         {userAddress?.map((item, index) => {
           return (
@@ -62,9 +78,9 @@ export default function SavedAddress() {
                     {item?.flat}, {item?.landMark}
                   </p>
                   <p>
-                    {item?.city}, {item?.zipCode}
+                    {item?.city} -{item?.zipCode}
                   </p>
-                  <p>{item?.state}</p>
+                  <p>{item?.state},</p>
                   <p>
                     {item?.countryCode} {item.phone}
                   </p>
@@ -80,7 +96,7 @@ export default function SavedAddress() {
                       REMOVE
                     </p>
                     <p className="line">|</p>
-                    {/* {!item.isDefault && (
+                    {!item.isDefault && (
                       <p
                         className="buttonText"
                         onClick={() => {
@@ -89,7 +105,7 @@ export default function SavedAddress() {
                       >
                         SET AS DEFAULT
                       </p>
-                    )} */}
+                    )}
                   </div>
                 </div>
               }
