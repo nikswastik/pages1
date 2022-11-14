@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import PopupForm from "../../components/PopupForm/PopupForm";
 import "./SavedAddress.css";
 
 export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
+  const [open , setOpen] = useState(false)
 
   useEffect(() => {
   let data = localStorage.getItem("userAddress");
@@ -32,6 +34,10 @@ export default function SavedAddress() {
 localStorage.setItem("userAddress" , JSON.stringify(data));
 setUserAddress([...data]);
   }
+
+  const editHandler=()=>{
+    setOpen(!open)
+  }
   
 
   return (
@@ -60,7 +66,7 @@ setUserAddress([...data]);
               {
                 <div className="mainDiv">
                   <div className="default-cntr">
-                    <h3>{item.name}</h3>
+                    <h3>{item?.name}</h3>
                     <div className="default">
                       {item?.isDefault && (
                         <div>
@@ -82,10 +88,12 @@ setUserAddress([...data]);
                   </p>
                   <p>{item?.state},</p>
                   <p>
-                    {item?.countryCode} {item.phone}
+                    {item?.countryCode} {item?.phone}
                   </p>
                   <div className="card-actions">
-                    <p className="buttonText">EDIT</p>
+
+                    <p onClick={editHandler}
+                    className="buttonText">EDIT</p>
                     <p className="line">|</p>
                     <p
                       className="buttonText"
@@ -96,7 +104,7 @@ setUserAddress([...data]);
                       REMOVE
                     </p>
                     <p className="line">|</p>
-                    {!item.isDefault && (
+                    {!item?.isDefault && (
                       <p
                         className="buttonText"
                         onClick={() => {
@@ -113,6 +121,7 @@ setUserAddress([...data]);
           );
         })}
       </div>
+      <PopupForm isOpen={open} editHandler = {editHandler} />
     </div>
   );
 }

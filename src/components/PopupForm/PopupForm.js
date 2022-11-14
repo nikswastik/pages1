@@ -3,14 +3,14 @@ import Drawer from "@mui/material/Drawer";
 import { Card, CardActionArea, CardMedia } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Address from "../../Pages/Address/Address";
-import Form from "../Form/form";
+import Form from "../Form/Form";
 
-export default function PopupForm() {
+export default function PopupForm(props) {
   return (
     <div>
-      <Drawer anchor={"right"} open={isOpen}>
+      <Drawer anchor={"right"} open={props.isOpen}>
         <div>
-          <CloseIcon onClick={openHandler} style={{margin:"1em"}}/>
+          <CloseIcon onClick={props.editHandler} style={{margin:"1em"}}/>
         </div>
         <Card
           sx={{ width: 500, height: "100%" }}
