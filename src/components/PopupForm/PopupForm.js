@@ -7,18 +7,15 @@ import Form from "../Form/Form";
 
 export default function PopupForm(props) {
   return (
-    <div>
-      <Drawer anchor={"right"} open={props.isOpen}>
-        <div>
-          <CloseIcon onClick={props.editHandler} style={{margin:"1em"}}/>
-        </div>
+   
+      <Drawer anchor={"right"} open={props.isOpen} style={{height:"100vh"}}>
         <Card
           sx={{ width: 500, height: "100%" }}
           className="ActionAreaCard-cntr"
         >
-          <Form/>
+          <Form type={"new"}  editfunc={props.editHandler}/>
         </Card>
       </Drawer>
-    </div>
+   
   );
 }

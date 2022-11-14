@@ -3,8 +3,9 @@ import "./form.css";
 import Codes from "../../Utils/state.json";
 import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
+import CloseIcon from "@mui/icons-material/Close";
 
-export default function Form({}) {
+export default function Form({type,editfunc}) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -151,16 +152,19 @@ setTest(data);
   };
 
   return (
+    
     <div className="address-contr">
+      
       <div
         className="address-form"
         style={{
           width: "100%",
+          height:"100vh",
           border: "1px solid lightgray",
-          backgroundColor:"red"
+          // backgroundColor:"red"
         }}
       >
-  
+       { type=="new" && <div style={{width:"100%"}}><CloseIcon onClick={editfunc} style={{ margin: "1em" }} /></div>}
         <h3 className="mainText">{"Your"} Address</h3>
         <hr
         style={{
