@@ -49,12 +49,13 @@ setUserAddress([...data]);
       </div>
       <div className="saved-addres">
         <h2>Your Address</h2>
-        <button className="add-addr-btn">
+        <button className="add-addr-btn" onClick={editHandler}>
           <img
           alt="btn"
             className="btn-image"
             src={require("../../Assets/Images/add-location.png")}
           />
+      
           ADD ADDRESS
         </button>
       </div>
