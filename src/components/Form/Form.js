@@ -137,6 +137,9 @@ export default function Form({
       setErrorMsg("Please Enter City / Town!");
       setErrorField("city");
     } else {
+      setErrorMsg(" ");
+      setErrorField(" ");
+      let data = [...test];
       let address = {
         id: id ? id : Date.now(),
         name: name,
@@ -149,13 +152,9 @@ export default function Form({
         state: state,
         isDefault: isDefault,
       };
-      if (formType == "EDIT" || "ADD") {
+      if (formType) {
         userAddressHandler(address);
       } else {
-        setErrorMsg(" ");
-        setErrorField(" ");
-        let data = [...test];
-
         data.push(address);
         setTest(data);
         localStorage.setItem("userAddress", JSON.stringify(data));
