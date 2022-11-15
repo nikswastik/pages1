@@ -5,6 +5,7 @@ import "./SavedAddress.css";
 export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
   const [open , setOpen] = useState(false)
+  const [type , setType]= useState(false)
 
   useEffect(() => {
   let data = localStorage.getItem("userAddress");
@@ -35,8 +36,14 @@ localStorage.setItem("userAddress" , JSON.stringify(data));
 setUserAddress([...data]);
   }
 
-  const editHandler=()=>{
-    setOpen(!open)
+  const editHandler=(name)=>{
+    if(name=="EDIT"){
+      setType(true);
+    }else{
+      setType(false);
+    }
+   
+    setOpen(!open);
   }
   
 
@@ -49,7 +56,7 @@ setUserAddress([...data]);
       </div>
       <div className="saved-addres">
         <h2>Your Address</h2>
-        <button className="add-addr-btn" onClick={editHandler}>
+        <button className="add-addr-btn" onClick={()=>{editHandler("ADD")}}>
           <img
           alt="btn"
             className="btn-image"
@@ -93,7 +100,7 @@ setUserAddress([...data]);
                   </p>
                   <div className="card-actions">
 
-                    <p onClick={editHandler}
+                    <p onClick={()=>{editHandler("EDIT")}}
                     className="buttonText">EDIT</p>
                     <p className="line">|</p>
                     <p
@@ -122,7 +129,7 @@ setUserAddress([...data]);
           );
         })}
       </div>
-      <PopupForm isOpen={open} editHandler = {editHandler} />
+      <PopupForm isOpen={open} modelHandler = {editHandler} addressType={type}/>
     </div>
   );
 }

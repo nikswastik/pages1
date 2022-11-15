@@ -13,7 +13,7 @@ export default function PopupForm(props) {
           sx={{ width: 500, height: "100%" }}
           className="ActionAreaCard-cntr"
         >
-          <Form type={"new"}  editfunc={props.editHandler}/>
+          <Form type={true}  editfunc={props.modelHandler} formType={props.addressType}/>
         </Card>
       </Drawer>
    

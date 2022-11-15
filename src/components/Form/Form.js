@@ -5,7 +5,7 @@ import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Form({type,editfunc}) {
+export default function Form({ type, editfunc,formType }) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -23,10 +23,10 @@ export default function Form({type,editfunc}) {
   const [isDefault, setIsDefault] = useState(false);
 
   useEffect(() => {
-   let data = localStorage.getItem("userAddress");
-   if(data){
-    setTest(JSON.parse(data));
-   }
+    let data = localStorage.getItem("userAddress");
+    if (data) {
+      setTest(JSON.parse(data));
+    }
   }, []);
 
   const nameHandler = (event) => {
@@ -79,8 +79,8 @@ export default function Form({type,editfunc}) {
   };
 
   const submitHandler = () => {
-    let mobileRE = /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
-
+    let mobileRE =
+      /^((\+[1-9]{1,4}[ \-]*)|(\([0-9]{2,3}\)[ \-]*)|([0-9]{2,4})[ \-]*)*?[0-9]{3,4}?[ \-]*[0-9]{3,4}?$/;
 
     if (!name) {
       setErrorMsg("Please input your Name!");
@@ -115,27 +115,25 @@ export default function Form({type,editfunc}) {
     } else {
       setErrorMsg(" ");
       setErrorField(" ");
-    let data = [...test];
-      let address ={
-        id : Date.now(),
-        name:name,
-        phone:phone,
-        flat:flat,
-        area:area,
-        zipCode:zipCode,
-        landMark:landMark,
-        city:city,
-        state:state,
-        isDefault:isDefault,
-      }
-data.push(address);
-setTest(data);
-    localStorage.setItem("userAddress",JSON.stringify(data)) ;
-    navigate('/saved');
+      let data = [...test];
+      let address = {
+        id: Date.now(),
+        name: name,
+        phone: phone,
+        flat: flat,
+        area: area,
+        zipCode: zipCode,
+        landMark: landMark,
+        city: city,
+        state: state,
+        isDefault: isDefault,
+      };
+      data.push(address);
+      setTest(data);
+      localStorage.setItem("userAddress", JSON.stringify(data));
+      navigate("/saved");
     }
   };
-
- 
 
   // const countryCodeHandler = (event) => {
   //   setCountryCode(event.target.value);
@@ -152,28 +150,39 @@ setTest(data);
   };
 
   return (
-    
     <div className="address-contr">
-      
       <div
         className="address-form"
         style={{
           width: "100%",
-          height:"100vh",
+          height: "100vh",
           // border: "1px solid lightgray",
           // backgroundColor:"red"
         }}
       >
-       { type=="new" && <div style={{width:"100%"}}><CloseIcon onClick={editfunc} style={{ margin: "1em" }} /></div>}
-        <h3 className="mainText">{"Your"} Address</h3>
+        {type && (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{marginLeft : "1.5em"}}>{formType?"EDIT":"ADD"} ADDRESS</h3>
+            <CloseIcon onClick={editfunc} style={{ margin: "1em" }} />
+          </div>
+        )}
+        {!type && <h3 className="mainText">{"Your"} Address</h3>}
         <hr
-        style={{
-          background: 'lime',
-          color: 'lime',
-          borderColor: 'lime',
-          height: '3px',
-        }}/>
-        <p className={"label-text"}>Full Name {id}</p>
+          style={{
+            background: "lime",
+            color: "lime",
+            borderColor: "lime",
+            height: "3px",
+          }}
+        />
+        <span className={"label-text"}>Full Name {id}</span>
         <input
           className={"field"}
           type="text"
@@ -184,20 +193,20 @@ setTest(data);
         />
         {errorField === "name" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Phone Number</p>
-       <input
-            type="text"
-            placeholder="    Phone Number"
-            value={phone}
-            className={"field"}
-            // className="phone field "
-            onChange={phoneHandler}
-            style={{ border: errorField === "phone" && "1px solid red" }}
-          />
-       
+        <span className={"label-text"}>Phone Number</span>
+        <input
+          type="text"
+          placeholder="    Phone Number"
+          value={phone}
+          className={"field"}
+          // className="phone field "
+          onChange={phoneHandler}
+          style={{ border: errorField === "phone" && "1px solid red" }}
+        />
+
         {errorField === "phone" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Zip Code</p>
+        <span className={"label-text"}>Zip Code</span>
         <input
           type="text"
           placeholder="    Eg: 6 digits(0-9)zip code"
@@ -219,7 +228,7 @@ setTest(data);
         />
         {errorField === "flat" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Area,Street,Sector,Village</p>
+        <span className={"label-text"}>Area,Street,Sector,Village</span>
         <input
           type="text"
           placeholder="    Area,Street,Sector,Village"
@@ -230,7 +239,7 @@ setTest(data);
         />
         {errorField === "area" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Landmark</p>
+        <span className={"label-text"}>Landmark</span>
         <input
           type="text"
           placeholder="    Eg: Nagayakashe Hall"
@@ -241,7 +250,7 @@ setTest(data);
         />
         {errorField === "landMark" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Town/City</p>
+        <span className={"label-text"}>Town/City</span>
         <input
           type="text"
           placeholder="    Enter your Town/City name"
@@ -252,7 +261,7 @@ setTest(data);
         />
         {errorField === "city" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>State</p>
+        <span className={"label-text"}>State</span>
         <div className={"states"}>
           <select
             name="state"

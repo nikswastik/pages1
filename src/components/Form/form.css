@@ -1,5 +1,4 @@
 .address-contr {
-  /* background-color: #6cbf3c; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,7 +23,8 @@
   border-radius: 1px;
   border: 1px solid #e8e7e6;
   margin-bottom: 1em;
-  padding: 0;
+  padding: 1%;
+  
 }
 
 /* .phonefield{
@@ -59,13 +59,14 @@
 } */
 
 .states {
-  width: 90%;
-  height: 2em;
+  width: 92%;
+  height: 2.7em;
   background-color: white !important;
+  padding: 1%;
 }
 .form-states {
   width: 90%;
-  height: 2em;
+  height: 2.5em;
 }
 
 .selectState {
@@ -74,6 +75,7 @@
   border-radius: 1px;
   border: 1px solid lightgrey;
   background-color: white !important;
+  padding: 1%;
 }
 
 .termsconditions {
@@ -94,14 +96,15 @@
 }
 
 .addButton {
-  width: 90%;
+  width: 92%;
   margin-bottom: 1em;
   background-color: #6cbf3c;
   border: 0;
   color: #fff;
-  height: 2.2em;
+  height: 2.8em;
   border-radius: 1px;
   border: 1px solid lightgrey;
+  padding: 1%;
 }
 
 .form-addBtn {
@@ -117,6 +120,7 @@
 .label-text {
   width: 90%;
   font-size: 0.8em;
+  padding: 1%;
 }
 
  :placeholder-shown{
@@ -149,7 +153,10 @@
 }
 
 .mainText {
-  width: 90% !important;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 160% !important;
   font-size: 1.65em;
-  margin-bottom: 5%;
+  margin-bottom: 7%;
 }
