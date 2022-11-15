@@ -5,7 +5,13 @@ import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Form({ type, editfunc,formType,userAddressHandler }) {
+export default function Form({
+  type,
+  editfunc,
+  formType,
+  userAddressHandler,
+  editId,
+}) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -26,6 +32,24 @@ export default function Form({ type, editfunc,formType,userAddressHandler }) {
     let data = localStorage.getItem("userAddress");
     if (data) {
       setTest(JSON.parse(data));
+    }
+    if (formType == "EDIT" && editId) {
+      let editData = JSON.parse(data);
+      let updated = editData.filter((item, index) => {
+        return item?.id == editId;
+      });
+      let address = updated[0];
+      if (address) {
+        setId(address?.id);
+        setName(address?.name);
+        setPhone(address?.phone);
+        setZipCose(address?.zipCode);
+        setFlat(address?.flat);
+        setArea(address?.area);
+        setLandMark(address?.landMark);
+        setCity(address?.city);
+        setState(address?.state);
+      }
     }
   }, []);
 
@@ -114,7 +138,7 @@ export default function Form({ type, editfunc,formType,userAddressHandler }) {
       setErrorField("city");
     } else {
       let address = {
-        id: Date.now(),
+        id: id ? id : Date.now(),
         name: name,
         phone: phone,
         flat: flat,
@@ -125,19 +149,18 @@ export default function Form({ type, editfunc,formType,userAddressHandler }) {
         state: state,
         isDefault: isDefault,
       };
-      if(formType=="EDIT" || "ADD" ){
-        userAddressHandler(address)
+      if (formType == "EDIT" || "ADD") {
+        userAddressHandler(address);
+      } else {
+        setErrorMsg(" ");
+        setErrorField(" ");
+        let data = [...test];
+
+        data.push(address);
+        setTest(data);
+        localStorage.setItem("userAddress", JSON.stringify(data));
+        navigate("/saved");
       }
-    else{
-      setErrorMsg(" ");
-      setErrorField(" ");
-      let data = [...test];
-    
-      data.push(address);
-      setTest(data);
-      localStorage.setItem("userAddress", JSON.stringify(data));
-      navigate("/saved");
-    }
     }
   };
 
@@ -175,7 +198,9 @@ export default function Form({ type, editfunc,formType,userAddressHandler }) {
               alignItems: "center",
             }}
           >
-            <h3 style={{marginLeft : "1.5em"}}>{formType=="EDIT"?"EDIT":"ADD"} ADDRESS</h3>
+            <h3 style={{ marginLeft: "1.5em" }}>
+              {formType == "EDIT" ? "EDIT" : "ADD"} ADDRESS
+            </h3>
             <CloseIcon onClick={editfunc} style={{ margin: "1em" }} />
           </div>
         )}

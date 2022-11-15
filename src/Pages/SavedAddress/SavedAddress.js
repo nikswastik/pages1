@@ -6,6 +6,7 @@ export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
   const [open, setOpen] = useState(false);
   const [type, setType] = useState(false);
+  const [editId,setEditId]=useState(null)
 
   useEffect(() => {
     let data = localStorage.getItem("userAddress");
@@ -35,8 +36,11 @@ export default function SavedAddress() {
     setUserAddress([...data]);
   };
 
-  const editHandler = (name) => {
+  const editHandler = (name,id) => {
     setType(name);
+    if(id){
+      setEditId(id)
+    }
     setOpen(!open);
   };
 
@@ -48,7 +52,24 @@ export default function SavedAddress() {
       localStorage.setItem("userAddress", JSON.stringify(data));
       setOpen(!open)
     } else {
-      alert("edit");
+     let data=userAddress
+     data.map((item,index)=>{
+      if(item?.id==address?.id){
+        
+        item.name= address?.name
+        item.phone= address?.phone
+        item.flat= address?.flat
+        item.area= address?.area
+        item.zipCode= address?.zipCode
+        item.landMark= address?.landMark
+        item.city= address?.city
+        item.state= address?.state
+        item.isDefault= address?.isDefault
+      }
+
+     })
+     setUserAddress([...data])
+     localStorage.setItem("userAddress", JSON.stringify(data));
     }
   };
 
@@ -83,6 +104,7 @@ export default function SavedAddress() {
               {
                 <div className="mainDiv">
                   <div className="default-cntr">
+                   
                     <h3>{item?.name}</h3>
                     <div className="default">
                       {item?.isDefault && (
@@ -110,7 +132,7 @@ export default function SavedAddress() {
                   <div className="card-actions">
                     <p
                       onClick={() => {
-                        editHandler("EDIT");
+                        editHandler("EDIT",item?.id);
                       }}
                       className="buttonText"
                     >
@@ -148,6 +170,7 @@ export default function SavedAddress() {
         modelHandler={editHandler}
         addressType={type}
         addressHandler={dataHandler}
+        editAddrId={editId}
       />
     </div>
   );
