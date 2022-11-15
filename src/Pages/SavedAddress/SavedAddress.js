@@ -4,48 +4,52 @@ import "./SavedAddress.css";
 
 export default function SavedAddress() {
   const [userAddress, setUserAddress] = useState([]);
-  const [open , setOpen] = useState(false)
-  const [type , setType]= useState(false)
+  const [open, setOpen] = useState(false);
+  const [type, setType] = useState(false);
 
   useEffect(() => {
-  let data = localStorage.getItem("userAddress");
-  if(data){
-    setUserAddress(JSON.parse(data));
-  }
+    let data = localStorage.getItem("userAddress");
+    if (data) {
+      setUserAddress(JSON.parse(data));
+    }
   }, []);
 
   const remove = (id) => {
-  let updated = userAddress.filter((item , index)=>{
-    return item.id != id;
-   })
-   localStorage.setItem("userAddress" ,JSON.stringify(updated))
-   setUserAddress(updated);
+    let updated = userAddress.filter((item, index) => {
+      return item.id != id;
+    });
+    localStorage.setItem("userAddress", JSON.stringify(updated));
+    setUserAddress(updated);
   };
 
-  const defaultHandler =(id)=>{
+  const defaultHandler = (id) => {
     let data = userAddress;
- data.map((item , index)=>{
-  if(id==item.id){
-    item.isDefault=true;
-   }
-   else{
-    item.isDefault = false;
-   }
-})
-localStorage.setItem("userAddress" , JSON.stringify(data));
-setUserAddress([...data]);
-  }
+    data.map((item, index) => {
+      if (id == item.id) {
+        item.isDefault = true;
+      } else {
+        item.isDefault = false;
+      }
+    });
+    localStorage.setItem("userAddress", JSON.stringify(data));
+    setUserAddress([...data]);
+  };
 
-  const editHandler=(name)=>{
-    if(name=="EDIT"){
+
+
+  const editHandler = (name) => {
+    if (name == "EDIT") {
       setType(true);
-    }else{
+    } else {
       setType(false);
     }
-   
     setOpen(!open);
+  };
+
+
+  const dataHandler=()=>{
+    alert("hey")
   }
-  
 
   return (
     <div className="saved-addr-contr">
@@ -56,13 +60,17 @@ setUserAddress([...data]);
       </div>
       <div className="saved-addres">
         <h2>Your Address</h2>
-        <button className="add-addr-btn" onClick={()=>{editHandler("ADD")}}>
+        <button
+          className="add-addr-btn"
+          onClick={() => {
+            editHandler("ADD");
+          }}
+        >
           <img
-          alt="btn"
+            alt="btn"
             className="btn-image"
             src={require("../../Assets/Images/add-location.png")}
           />
-      
           ADD ADDRESS
         </button>
       </div>
@@ -79,7 +87,7 @@ setUserAddress([...data]);
                       {item?.isDefault && (
                         <div>
                           <img
-                          alt="accept"
+                            alt="accept"
                             className="accept-image"
                             src={require("../../Assets/Images/accept.png")}
                           />
@@ -99,9 +107,14 @@ setUserAddress([...data]);
                     {item?.countryCode} {item?.phone}
                   </p>
                   <div className="card-actions">
-
-                    <p onClick={()=>{editHandler("EDIT")}}
-                    className="buttonText">EDIT</p>
+                    <p
+                      onClick={() => {
+                        editHandler("EDIT");
+                      }}
+                      className="buttonText"
+                    >
+                      EDIT
+                    </p>
                     <p className="line">|</p>
                     <p
                       className="buttonText"
@@ -111,7 +124,7 @@ setUserAddress([...data]);
                     >
                       REMOVE
                     </p>
-                    <p className="line">|</p>
+                    {!item?.isDefault && <p className="line">|</p>}
                     {!item?.isDefault && (
                       <p
                         className="buttonText"
@@ -129,7 +142,7 @@ setUserAddress([...data]);
           );
         })}
       </div>
-      <PopupForm isOpen={open} modelHandler = {editHandler} addressType={type}/>
+      <PopupForm isOpen={open} modelHandler={editHandler} addressType={type} addressHandler={dataHandler} />
     </div>
   );
 }

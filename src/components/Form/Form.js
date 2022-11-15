@@ -5,7 +5,7 @@ import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Form({ type, editfunc,formType }) {
+export default function Form({ type, editfunc,formType,addrHandler }) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -209,7 +209,7 @@ export default function Form({ type, editfunc,formType }) {
         <span className={"label-text"}>Zip Code</span>
         <input
           type="text"
-          placeholder="    Eg: 6 digits(0-9)zip code"
+          placeholder="    Eg: 6 digits (0-9) zip code"
           className={"field"}
           value={zipCode}
           onChange={zipHandler}
@@ -217,10 +217,10 @@ export default function Form({ type, editfunc,formType }) {
         />
         {errorField === "zipCode" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <p className={"label-text"}>Flat,House no.,Company,Apartment</p>
+        <p className={"label-text"}>Flat,House no., Company,Apartment</p>
         <input
           type="text"
-          placeholder="    Flat,House no,Company,Apartment"
+          placeholder="    Flat,House no, Company, Apartment"
           className={"field"}
           value={flat}
           onChange={flatHandler}
@@ -228,10 +228,10 @@ export default function Form({ type, editfunc,formType }) {
         />
         {errorField === "flat" && <p className={"error-msg"}>{errorMsg}</p>}
 
-        <span className={"label-text"}>Area,Street,Sector,Village</span>
+        <span className={"label-text"}>Area, Street, Sector, illage</span>
         <input
           type="text"
-          placeholder="    Area,Street,Sector,Village"
+          placeholder="    Area, Street, Sector, Village"
           className={"field"}
           value={area}
           onChange={AreaHandler}
