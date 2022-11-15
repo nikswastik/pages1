@@ -5,7 +5,7 @@ import Country from "../../Utils/Countrycode.json";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function Form({ type, editfunc,formType,addrHandler }) {
+export default function Form({ type, editfunc,formType,userAddressHandler }) {
   const navigate = useNavigate();
   const [id, setId] = useState();
   const [name, setName] = useState("");
@@ -113,9 +113,6 @@ export default function Form({ type, editfunc,formType,addrHandler }) {
       setErrorMsg("Please Enter City / Town!");
       setErrorField("city");
     } else {
-      setErrorMsg(" ");
-      setErrorField(" ");
-      let data = [...test];
       let address = {
         id: Date.now(),
         name: name,
@@ -128,10 +125,19 @@ export default function Form({ type, editfunc,formType,addrHandler }) {
         state: state,
         isDefault: isDefault,
       };
+      if(formType=="EDIT" || "ADD" ){
+        userAddressHandler(address)
+      }
+    else{
+      setErrorMsg(" ");
+      setErrorField(" ");
+      let data = [...test];
+    
       data.push(address);
       setTest(data);
       localStorage.setItem("userAddress", JSON.stringify(data));
       navigate("/saved");
+    }
     }
   };
 
@@ -169,7 +175,7 @@ export default function Form({ type, editfunc,formType,addrHandler }) {
               alignItems: "center",
             }}
           >
-            <h3 style={{marginLeft : "1.5em"}}>{formType?"EDIT":"ADD"} ADDRESS</h3>
+            <h3 style={{marginLeft : "1.5em"}}>{formType=="EDIT"?"EDIT":"ADD"} ADDRESS</h3>
             <CloseIcon onClick={editfunc} style={{ margin: "1em" }} />
           </div>
         )}

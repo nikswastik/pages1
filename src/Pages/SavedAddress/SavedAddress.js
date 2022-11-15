@@ -35,21 +35,22 @@ export default function SavedAddress() {
     setUserAddress([...data]);
   };
 
-
-
   const editHandler = (name) => {
-    if (name == "EDIT") {
-      setType(true);
-    } else {
-      setType(false);
-    }
+    setType(name);
     setOpen(!open);
   };
 
-
-  const dataHandler=()=>{
-    alert("hey")
-  }
+  const dataHandler = (address) => {
+    if (type == "ADD") {
+     let data=[...userAddress]
+      data.push(address)
+      setUserAddress([...data])
+      localStorage.setItem("userAddress", JSON.stringify(data));
+      setOpen(!open)
+    } else {
+      alert("edit");
+    }
+  };
 
   return (
     <div className="saved-addr-contr">
@@ -142,7 +143,12 @@ export default function SavedAddress() {
           );
         })}
       </div>
-      <PopupForm isOpen={open} modelHandler={editHandler} addressType={type} addressHandler={dataHandler} />
+      <PopupForm
+        isOpen={open}
+        modelHandler={editHandler}
+        addressType={type}
+        addressHandler={dataHandler}
+      />
     </div>
   );
 }
